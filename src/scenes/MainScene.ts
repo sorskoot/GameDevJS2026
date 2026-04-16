@@ -1,12 +1,22 @@
 import {
+    AbstractMesh,
     Engine,
     FreeCamera,
-    HemisphericLight, PointLight,
+    HemisphericLight,
+    PointLight,
     Vector3,
     WebXRMotionControllerManager,
 } from '@babylonjs/core';
 
-import {AnimationManager, AssetManager, GameScene, ParticleManager, UIManager, XRManager} from '@sorskoot/babylon-kit';
+import {
+    AnimationManager,
+    AssetManager,
+    GameScene,
+    metadataRepository,
+    ParticleManager,
+    UIManager,
+    XRManager,
+} from '@sorskoot/babylon-kit';
 
 export class MainScene extends GameScene {
 
@@ -37,10 +47,10 @@ export class MainScene extends GameScene {
         camera.ellipsoid = new Vector3(.25, .85, .25);
         camera.checkCollisions = true;
         this.scene.collisionsEnabled = true;
-      //  camera.applyGravity = true;
+        camera.applyGravity = true;
         camera.minZ = 0.05;
         camera.speed = 0.25;
-        camera.inertia =.75;
+        camera.inertia = .75;
 
         const globalLight = new HemisphericLight('mainLight', new Vector3(0, 1, 0), this.scene);
         globalLight.intensity = .1;
@@ -54,7 +64,7 @@ export class MainScene extends GameScene {
         if (supported) {
             // TODO: Controls need finetuning (rotation is too fast and there's a hick-up when moving
             const xr = await this.initializeXR({movement: {mode: 'locomotion'}});
-            //xr.baseExperience.camera.applyGravity = true;
+            xr.baseExperience.camera.applyGravity = true;
             xr.baseExperience.camera.checkCollisions = true;
             xr.baseExperience.camera.ellipsoid = new Vector3(.25, .85, .25);
             xr.baseExperience.camera.minZ = 0.05;
@@ -68,7 +78,23 @@ export class MainScene extends GameScene {
             this.scene,
         );
 
-        apartment.meshes[1].checkCollisions = true;
+        this.processMetadata();
+
         apartment.addToScene();
+    }
+
+    /**
+     * Run through the metaDataRepository and handle settings
+     * @private
+     */
+    private processMetadata(): void {
+        for (const node of metadataRepository) {
+            // enable collisions
+            if (node.data.generic?.collision
+                && node.mesh
+                && 'checkCollisions' in node.mesh) {
+                (node.mesh as any).checkCollisions = true;
+            }
+        }
     }
 }
