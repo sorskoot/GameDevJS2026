@@ -1,7 +1,7 @@
 import {
     Engine,
     FreeCamera,
-    HemisphericLight,
+    HemisphericLight, PointLight,
     Vector3,
     WebXRMotionControllerManager,
 } from '@babylonjs/core';
@@ -37,26 +37,28 @@ export class MainScene extends GameScene {
         camera.ellipsoid = new Vector3(.25, .85, .25);
         camera.checkCollisions = true;
         this.scene.collisionsEnabled = true;
-        camera.applyGravity = true;
+      //  camera.applyGravity = true;
         camera.minZ = 0.05;
         camera.speed = 0.25;
         camera.inertia =.75;
 
-        new HemisphericLight('mainLight', new Vector3(0, 1, 0), this.scene);
+        const globalLight = new HemisphericLight('mainLight', new Vector3(0, 1, 0), this.scene);
+        globalLight.intensity = .1;
+
+        const light = new PointLight('pointLight', new Vector3(0, 0, 0), this.scene);
+        light.parent = camera;
+
         WebXRMotionControllerManager.UseOnlineRepository = false;
 
         const supported = await XRManager.isSupported();
         if (supported) {
             // TODO: Controls need finetuning (rotation is too fast and there's a hick-up when moving
             const xr = await this.initializeXR({movement: {mode: 'locomotion'}});
-            xr.baseExperience.camera.applyGravity = true;
+            //xr.baseExperience.camera.applyGravity = true;
             xr.baseExperience.camera.checkCollisions = true;
             xr.baseExperience.camera.ellipsoid = new Vector3(.25, .85, .25);
             xr.baseExperience.camera.minZ = 0.05;
             xr.baseExperience.camera.speed = 2;
-
-
-
         }
 
         const apartment = await this.assetManager.loadModel(

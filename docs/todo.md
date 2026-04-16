@@ -6,7 +6,8 @@ Set up project:
     
 
 [] create story
-[] blockout apartment
+[x] blockout apartment
+
 
 Implement core systems:
     [] Doors
