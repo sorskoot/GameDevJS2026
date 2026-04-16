@@ -1,5 +1,4 @@
 import {
-    AbstractMesh,
     Engine,
     FreeCamera,
     HemisphericLight,
@@ -14,9 +13,11 @@ import {
     GameScene,
     metadataRepository,
     ParticleManager,
+    SorskootEntryTypes,
     UIManager,
     XRManager,
 } from '@sorskoot/babylon-kit';
+import {DoorObject} from '../entities/DoorObject.ts';
 
 export class MainScene extends GameScene {
 
@@ -95,6 +96,17 @@ export class MainScene extends GameScene {
                 && 'checkCollisions' in node.mesh) {
                 (node.mesh as any).checkCollisions = true;
             }
+        }
+
+        const doors = metadataRepository.getByType(SorskootEntryTypes.Door);
+        let doorIndex = 0;
+        for (const door of doors) {
+            if (!door.mesh) continue;
+            const doorObj = new DoorObject(`door_${doorIndex}`, this.scene, door.mesh,
+                {reversed: door.data.door?.reversed, locked: door.data.door?.locked});
+            this.addGameObject(`door_${doorIndex}`, doorObj);
+            this.interactionManager.enableInteraction(doorObj);
+
         }
     }
 }

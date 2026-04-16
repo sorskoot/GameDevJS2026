@@ -16,7 +16,8 @@ Random thoughts:
 - Add Footstep sounds
 - Lights flickering (maybe show a ghostly silhouette in the door opening when the lights flicker)
 - Protagonist or antagonist proposed and she said no
-
+- Text (in blood) appearing on the wall
+ 
 Horror story tips:
 - Somehow make the player love the protagonist. Make it seem he did something good.
 - Base on a true story... Where "true" is used very broadly, could be 90% bullshit
