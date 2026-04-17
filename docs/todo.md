@@ -2,11 +2,16 @@
 
 ## 1 — Core Systems
 
-- [ ] Implement answering machine interaction
-- [ ] Implement message playback
+- [x] Implement answering machine interaction
+  - [x] Add table to hallway
+  - [x] Add answering machine model
+  - [x] Set up AnsweringMachine component
+- [x] Implement message playback
 - [ ] Implement room unlock system
 - [ ] Implement environmental trigger system
+- [x] implement door opening/closing
 - [ ] Rough‑in all rooms
+- [ ] Create game flow system / manager to track progression and trigger events
 
 Goal: Core loop working (message → unlock → explore).
 

@@ -1,7 +1,8 @@
 import {
+    CreateAudioEngineAsync, CreateSoundAsync,
     Engine,
     FreeCamera,
-    HemisphericLight,
+    HemisphericLight, type Mesh,
     PointLight,
     Vector3,
     WebXRMotionControllerManager,
@@ -17,6 +18,7 @@ import {
     UIManager,
     XRManager,
 } from '@sorskoot/babylon-kit';
+import {AnsweringMachineObject} from '../entities/AnsweringMachineObject.ts';
 
 import {DoorObject} from '../entities/DoorObject.ts';
 
@@ -43,10 +45,10 @@ export class MainScene extends GameScene {
 
     public async setup(): Promise<void> {
         // TODO: Make the camera move with WASD too
-        const camera = new FreeCamera('mainCamera', new Vector3(0, 1.7, 0), this.scene);
-        camera.setTarget(new Vector3(0, 1.7, -1));
+        const camera = new FreeCamera('mainCamera', new Vector3(0, 1.6, 0), this.scene);
+        camera.setTarget(new Vector3(0, 1.5, -1));
         camera.attachControl(true);
-        camera.ellipsoid = new Vector3(.25, .85, .25);
+        camera.ellipsoid = new Vector3(.25, .75, .25);
         camera.checkCollisions = true;
         this.scene.collisionsEnabled = true;
         camera.applyGravity = true;
@@ -68,7 +70,7 @@ export class MainScene extends GameScene {
             const xr = await this.initializeXR({movement: {mode: 'locomotion'}});
             xr.baseExperience.camera.applyGravity = true;
             xr.baseExperience.camera.checkCollisions = true;
-            xr.baseExperience.camera.ellipsoid = new Vector3(.25, .85, .25);
+            xr.baseExperience.camera.ellipsoid = new Vector3(.25, .75, .25);
             xr.baseExperience.camera.minZ = 0.05;
             xr.baseExperience.camera.speed = 2;
         }
@@ -80,22 +82,32 @@ export class MainScene extends GameScene {
             this.scene,
         );
 
-        this.processMetadata();
+        const audioEngine = await CreateAudioEngineAsync();
+
+        await this.processMetadata();
+
+
+
+// Wait until audio engine is ready to play sounds.
+        await audioEngine.unlockAsync();
 
         apartment.addToScene();
+
+
     }
 
     /**
      * Run through the metaDataRepository and handle settings
      * @private
      */
-    private processMetadata(): void {
+    private async processMetadata(): Promise<void> {
         for (const node of metadataRepository) {
             // enable collisions
             if (node.data.generic?.collision
                 && node.mesh
                 && 'checkCollisions' in node.mesh) {
                 (node.mesh as any).checkCollisions = true;
+                console.log(`collision for ${node.name}`);
             }
         }
 
@@ -116,5 +128,14 @@ export class MainScene extends GameScene {
             this.interactionManager.enableInteraction(doorObj);
             doorIndex++;
         }
+
+        // Set up Answering Machine
+        const beep = await CreateSoundAsync("beep",
+            "/assets/sfx/beep.mp3"
+        );
+        const answeringMachine = metadataRepository.getById('AnsweringMachine');
+        const answeringMachineObj = new AnsweringMachineObject(this.scene, answeringMachine!.mesh! as Mesh, beep);
+        this.addGameObject(`AnsweringMachine`, answeringMachineObj);
+        this.interactionManager.enableInteraction(answeringMachineObj);
     }
 }
