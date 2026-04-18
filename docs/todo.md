@@ -7,11 +7,12 @@
   - [x] Add answering machine model
   - [x] Set up AnsweringMachine component
 - [x] Implement message playback
+- [x] Add message audio
 - [ ] Implement room unlock system
 - [ ] Implement environmental trigger system
 - [x] implement door opening/closing
 - [ ] Rough‑in all rooms
-- [ ] Create game flow system / manager to track progression and trigger events
+- [x] Create game flow system / manager to track progression and trigger events
 
 Goal: Core loop working (message → unlock → explore).
 
