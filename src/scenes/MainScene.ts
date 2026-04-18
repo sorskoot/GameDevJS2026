@@ -21,6 +21,7 @@ import {
 import {AnsweringMachineObject} from '../entities/AnsweringMachineObject.ts';
 
 import {DoorObject} from '../entities/DoorObject.ts';
+import { storyBeatsManager } from '../story-beats/StoryBeats.ts';
 
 export class MainScene extends GameScene {
 
@@ -134,7 +135,8 @@ export class MainScene extends GameScene {
             "/assets/sfx/beep.mp3"
         );
         const answeringMachine = metadataRepository.getById('AnsweringMachine');
-        const answeringMachineObj = new AnsweringMachineObject(this.scene, answeringMachine!.mesh! as Mesh, beep);
+        const answeringMachineObj = new AnsweringMachineObject(
+            this.scene, answeringMachine!.mesh! as Mesh, beep, storyBeatsManager.events);
         this.addGameObject(`AnsweringMachine`, answeringMachineObj);
         this.interactionManager.enableInteraction(answeringMachineObj);
     }
