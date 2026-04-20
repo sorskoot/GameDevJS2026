@@ -13,6 +13,7 @@
 - [x] implement door opening/closing
 - [ ] Rough‑in all rooms
 - [x] Create game flow system / manager to track progression and trigger events
+- [ ] Add inspecting objects
 
 Goal: Core loop working (message → unlock → explore).
 
