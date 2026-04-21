@@ -9,8 +9,9 @@
 - [x] Implement message playback
 - [ ] Implement room unlock system
 - [ ] Implement environmental trigger system
+- [ ] Implement look-at trigger
 - [x] implement door opening/closing
-- [ ] Rough‑in all rooms
+- [x] Rough‑in all rooms
 - [x] Create game flow system / manager to track progression and trigger events
 - [ ] Add inspecting objects
 
@@ -19,9 +20,11 @@ Goal: Core loop working (message → unlock → explore).
 ## 2 — Environment Pass
 
 - [ ] Add MUST‑HAVE props to each room
+  - [ ] Create list of all props needed
 - [ ] Add basic lighting
 - [ ] Add basic ambient audio
 - [ ] Add final void scene (minimal version)
+  - [ ] Implement way to transition
 
 Goal: All rooms visually readable.
 

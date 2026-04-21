@@ -6,8 +6,7 @@ import {
     HemisphericLight,
     type Mesh,
     PointLight,
-    SSAO2RenderingPipeline,
-    SSAORenderingPipeline, Texture,
+    Texture,
     Vector3,
     WebXRMotionControllerManager,
 } from '@babylonjs/core';
@@ -153,7 +152,7 @@ export class MainScene extends GameScene {
                 this.animationManager,
                 {
                     reversed: door.data.door?.reversed,
-                    locked: door.data.door?.locked,
+                    locked: true, // all doors are locked at the start
                 },
             );
             this.addGameObject(`door_${doorIndex}`, doorObj);
