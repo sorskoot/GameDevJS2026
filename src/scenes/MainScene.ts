@@ -7,10 +7,10 @@ import {
     type Mesh,
     PointLight,
     SSAO2RenderingPipeline,
-    SSAORenderingPipeline,
+    SSAORenderingPipeline, Texture,
     Vector3,
     WebXRMotionControllerManager,
-} from "@babylonjs/core";
+} from '@babylonjs/core';
 
 import {
     AnimationManager,
@@ -48,6 +48,10 @@ export class MainScene extends GameScene {
     }
 
     public async setup(): Promise<void> {
+        this.scene.onNewTextureAddedObservable.add(tex => {
+            tex.updateSamplingMode(Texture.NEAREST_SAMPLINGMODE);
+        });
+
         // TODO: Make the camera move with WASD too
         const camera = new FreeCamera(
             "mainCamera",
@@ -64,13 +68,13 @@ export class MainScene extends GameScene {
         camera.speed = 0.25;
         camera.inertia = 0.75;
 
-        const ssao = new SSAO2RenderingPipeline(
-            "ssaopipeline",
-            this.scene,
-            1 
-        );
-        ssao.radius = .75;
-   this.scene.postProcessRenderPipelineManager.attachCamerasToRenderPipeline("ssaopipeline", camera);
+        // const ssao = new SSAO2RenderingPipeline(
+        //     "ssaopipeline",
+        //     this.scene,
+        //     1
+        // );
+        // ssao.radius = .75;
+        // this.scene.postProcessRenderPipelineManager.attachCamerasToRenderPipeline("ssaopipeline", camera);
 
         const globalLight = new HemisphericLight(
             "mainLight",
@@ -94,11 +98,14 @@ export class MainScene extends GameScene {
             const xr = await this.initializeXR({
                 movement: { mode: "locomotion" },
             });
+
             xr.baseExperience.camera.applyGravity = true;
             xr.baseExperience.camera.checkCollisions = true;
             xr.baseExperience.camera.ellipsoid = new Vector3(0.25, 0.75, 0.25);
             xr.baseExperience.camera.minZ = 0.05;
             xr.baseExperience.camera.speed = 2;
+
+
         }
 
         const apartment = await this.assetManager.loadModel(
@@ -114,7 +121,6 @@ export class MainScene extends GameScene {
 
         // Wait until audio engine is ready to play sounds.
         await audioEngine.unlockAsync();
-
         apartment.addToScene();
     }
 

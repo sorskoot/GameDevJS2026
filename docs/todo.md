@@ -7,7 +7,6 @@
   - [x] Add answering machine model
   - [x] Set up AnsweringMachine component
 - [x] Implement message playback
-- [x] Add message audio
 - [ ] Implement room unlock system
 - [ ] Implement environmental trigger system
 - [x] implement door opening/closing
@@ -29,7 +28,7 @@ Goal: All rooms visually readable.
 ## 3 — Narrative Implementation
 
 - [ ] Finalize message scripts
-- [ ] Record placeholder audio
+- [x] Record placeholder audio
 - [ ] Implement messages 1–6
 - [ ] Implement environmental changes per beat
 
