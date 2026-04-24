@@ -11,7 +11,7 @@ StoryBeats is basically a state magine to manage the flow of the story of the ga
 - When certain conditions are met, the story beat should transition to the next
 
 Questions:
-- Should the transition be a beat in itself? So that something can happen during a transition? Something like a fade or a cutscene?
+- Should the transition be a beat in itself? So that something can  happen during a transition? Something like a fade or a cutscene?
 - How to implement cheching conditions for transitions? Should it be a function that is called every frame, or should it be an event-based system where certain events trigger the transition?
 
 */
@@ -23,6 +23,7 @@ export type StoryEvent =
     | { type: "answering-machine.used" }
     | { type: "message.started"; messageId: string }
     | { type: "message.finished"; messageId: string }
+    | { type: "door.unlocked"; doorId: string }
     | { type: "door.opened"; doorId: string }
     | { type: "room.entered"; roomId: string }
     | { type: "flag.set"; flag: string };

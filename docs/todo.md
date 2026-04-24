@@ -3,13 +3,40 @@
 ## 1 — Core Systems
 
 - [x] Implement answering machine interaction
-  - [x] Add table to hallway
-  - [x] Add answering machine model
-  - [x] Set up AnsweringMachine component
+    - [x] Add table to hallway
+    - [x] Add answering machine model
+    - [x] Set up AnsweringMachine component
 - [x] Implement message playback
 - [ ] Implement room unlock system
 - [ ] Implement environmental trigger system
+    - [x] Very Basic implementation
+    - [ ] Add to Blender exporter
+    - [ ] Finish implementation through a generic trigger manager that throws events on enter/exit for all registered
+      triggers
 - [ ] Implement look-at trigger
+  fastest:
+
+```ts
+scene.onBeforeRenderObservable.add(() => {
+    if (camera.isInFrustum(myMesh)) {
+    }
+});
+```
+
+Best way to check is:
+
+```ts
+-myMesh.occlusionType = BABYLON.AbstractMesh.OCCLUSION_TYPE_OPTIMISTIC;
+
+scene.onBeforeRenderObservable.add(() => {
+    if (!myMesh.isOccluded) {
+        console.log("Mesh is actually visible (not blocked)");
+    }
+});
+```
+
+It's not perfect but works with occluded meshes.
+
 - [x] implement door opening/closing
 - [x] Rough‑in all rooms
 - [x] Create game flow system / manager to track progression and trigger events
@@ -20,11 +47,11 @@ Goal: Core loop working (message → unlock → explore).
 ## 2 — Environment Pass
 
 - [ ] Add MUST‑HAVE props to each room
-  - [ ] Create list of all props needed
+    - [ ] Create list of all props needed
 - [ ] Add basic lighting
 - [ ] Add basic ambient audio
 - [ ] Add final void scene (minimal version)
-  - [ ] Implement way to transition
+    - [ ] Implement way to transition
 
 Goal: All rooms visually readable.
 
